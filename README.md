@@ -1,18 +1,22 @@
-Example
+SenseHat
 =======
 
 Blocks in this Collection
 -------------------------
-[Example](docs/example_block.md)
+[SenseHat](docs/sense_hat_block.md)
 
 Installation
 ------------
-Any additional information or steps required for installation can go here.
+```
+sudo apt-get update
+sudo apt-get install sense-hat
+sudo reboot
+```
 
 Notes
 -----
-Notes for developers can go here.
+The official library must be installed using `apt-get`
 
 Dependencies
 ------------
-None, or list all packages that need to be installed. This should match `requirements.txt`, plus any packages that cannot be installed using `pip`.
+[Sense HAT](https://pythonhosted.org/sense-hat/)
