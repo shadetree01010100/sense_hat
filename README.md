@@ -13,10 +13,6 @@ sudo apt-get install sense-hat
 sudo reboot
 ```
 
-Notes
------
-The official library must be installed using `apt-get`
-
 Dependencies
 ------------
 [Sense HAT](https://pythonhosted.org/sense-hat/)
