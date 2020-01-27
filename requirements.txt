@@ -1,0 +1,2 @@
+sense-hat~=2.2
+RTIMULib~=7.2
