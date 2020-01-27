@@ -1,12 +1,13 @@
 from unittest.mock import patch, Mock
 from nio import Signal
 from nio.testing.block_test_case import NIOBlockTestCase
-from ..sense_hat_block import SenseHat
+from ..sense_hat_block import SenseHAT
 
 
-@patch(SenseHat.__module__ + '.SenseHat')
+@patch(SenseHAT.__module__ + '.SenseHat')
 class TestSenseHat(NIOBlockTestCase):
 
+    maxDiff=None
     def test_accelerometer(self, mockSenseHat):
         """Signals are enriched with accelerometer data."""
         mock_hat = Mock()
@@ -16,7 +17,7 @@ class TestSenseHat(NIOBlockTestCase):
             'z': 1,
         }
         mockSenseHat.return_value = mock_hat
-        blk = SenseHat()
+        blk = SenseHAT()
         self.configure_block(blk, {
             'imu': {
                 'accel': True,
@@ -59,7 +60,7 @@ class TestSenseHat(NIOBlockTestCase):
             'z': 1,
         }
         mockSenseHat.return_value = mock_hat
-        blk = SenseHat()
+        blk = SenseHAT()
         self.configure_block(blk, {
             'imu': {
                 'accel': False,
@@ -102,7 +103,7 @@ class TestSenseHat(NIOBlockTestCase):
             'z': 1,
         }
         mockSenseHat.return_value = mock_hat
-        blk = SenseHat()
+        blk = SenseHAT()
         self.configure_block(blk, {
             'imu': {
                 'accel': False,

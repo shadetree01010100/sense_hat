@@ -1,8 +1,4 @@
-try:
-    from sense_hat import SenseHat
-except:
-    # catch exceptions so tests can run on alternate platforms
-    pass
+from sense_hat import SenseHat
 from nio import Block
 from nio.block.mixins import EnrichSignals
 from nio.properties import BoolProperty, ObjectProperty, PropertyHolder, \
@@ -15,10 +11,9 @@ class IMUsensor(PropertyHolder):
     gyro = BoolProperty(title='Gyroscope', default=True, order=2)
 
 
-class SenseHat(Block, EnrichSignals):
+class SenseHAT(Block, EnrichSignals):
 
     imu = ObjectProperty(IMUsensor, title='IMU Sensor')
-
     version = VersionProperty('0.1.0')
 
     def __init__(self):
@@ -41,6 +36,7 @@ class SenseHat(Block, EnrichSignals):
             data['compass'] = self.hat.get_compass_raw()
         if self.imu().gyro():
             data['gyroscope'] = self.hat.get_gyroscope_raw()
+        outgoing_signals = []
         for signal in signals:
-            signal = self.get_output_signal(data, signal)
-        self.notify_signals(signals)
+            outgoing_signals.append(self.get_output_signal(data, signal))
+        self.notify_signals(outgoing_signals)
