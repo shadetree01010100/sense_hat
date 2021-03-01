@@ -15,18 +15,28 @@ Properties
 
 Example
 -------
-Incoming signals are enriched with each of the selected environmental sensors. A dictionary of `key: value` pairs is added to each incoming signal for each enabled sensor of the IMU.
+Incoming signals are enriched with each of the selected environmental sensors. For each enabled sensor of the IMU a dictionary of `x`, `y`, and `z` axes is added.
 
 ```
 {
-  'pressure_mbar': 1000,
-  'temperature_C': 12.3,
+  'pressure_mbar': 1000.1,
+  'temperature_C': 22.2,
   'relative_humidity': 42.0,
-  '<accelerometer|compass|gyroscope>': {
-      'x': <float>,
-      'y': <float>,
-      'z': <float>,
-  }
+  'accelerometer': {
+      'x': 1.0,
+      'y': 0.0,
+      'z': 0.0,
+  },
+  'compass': {
+      'x': 0.0,
+      'y': 1.0,
+      'z': 0.0,
+  },
+  'gyroscope': {
+      'x': 0.0,
+      'y': 0.0,
+      'z': 1.0,
+  },
 }
 ```
 
