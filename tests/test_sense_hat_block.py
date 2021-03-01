@@ -1,6 +1,12 @@
 from unittest.mock import patch, Mock
 from nio import Signal
 from nio.testing.block_test_case import NIOBlockTestCase
+
+# mock modules which can't be installed on other platforms
+# before importing block classes
+import sys
+sys.modules['sense_hat'] = Mock()
+# import block classes
 from ..sense_hat_block import SenseHAT
 
 
