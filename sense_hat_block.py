@@ -47,7 +47,7 @@ class SenseHAT(Block, EnrichSignals):
         if self.imu().gyro():
             data['gyroscope'] = self.hat.get_gyroscope_raw()
         if self.env().rh():
-            data['relative_humidity'] = self.hat.get_humidity() * 100
+            data['relative_humidity'] = self.hat.get_humidity()
         if self.env().temp():
             data['temperature_C'] = self.hat.get_temperature()
         if self.env().press():

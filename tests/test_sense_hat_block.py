@@ -160,7 +160,7 @@ class TestSenseHat(NIOBlockTestCase):
     def test_humidity(self, mockSenseHat):
         """Signals are enriched with humidity data."""
         mock_hat = Mock()
-        mock_hat.get_humidity.return_value = 0.42
+        mock_hat.get_humidity.return_value = 42.0
         mockSenseHat.return_value = mock_hat
         blk = SenseHAT()
         self.configure_block(blk, {
