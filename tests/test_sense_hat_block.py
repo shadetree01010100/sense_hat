@@ -13,7 +13,6 @@ from ..sense_hat_block import SenseHAT
 @patch(SenseHAT.__module__ + '.SenseHat')
 class TestSenseHat(NIOBlockTestCase):
 
-    maxDiff=None
     def test_accelerometer(self, mockSenseHat):
         """Signals are enriched with accelerometer data."""
         mock_hat = Mock()
@@ -25,6 +24,11 @@ class TestSenseHat(NIOBlockTestCase):
         mockSenseHat.return_value = mock_hat
         blk = SenseHAT()
         self.configure_block(blk, {
+            'env': {
+                'press': False,
+                'rh': False,
+                'temp': False,
+            },
             'imu': {
                 'accel': True,
                 'compass': False,
@@ -68,6 +72,11 @@ class TestSenseHat(NIOBlockTestCase):
         mockSenseHat.return_value = mock_hat
         blk = SenseHAT()
         self.configure_block(blk, {
+            'env': {
+                'press': False,
+                'rh': False,
+                'temp': False,
+            },
             'imu': {
                 'accel': False,
                 'compass': True,
@@ -111,6 +120,11 @@ class TestSenseHat(NIOBlockTestCase):
         mockSenseHat.return_value = mock_hat
         blk = SenseHAT()
         self.configure_block(blk, {
+            'env': {
+                'press': False,
+                'rh': False,
+                'temp': False,
+            },
             'imu': {
                 'accel': False,
                 'compass': False,
@@ -139,6 +153,117 @@ class TestSenseHat(NIOBlockTestCase):
                     'y': 0,
                     'z': 1,
                 },
+                'pi': 3.14,
+            }),
+        ])
+
+    def test_humidity(self, mockSenseHat):
+        """Signals are enriched with humidity data."""
+        mock_hat = Mock()
+        mock_hat.get_humidity.return_value = 42.0
+        mockSenseHat.return_value = mock_hat
+        blk = SenseHAT()
+        self.configure_block(blk, {
+            'env': {
+                'press': False,
+                'rh': True,
+                'temp': False,
+            },
+            'imu': {
+                'accel': False,
+                'compass': False,
+                'gyro': False,
+            },
+            'enrich': {
+                'exclude_existing': False,
+            },
+        })
+
+        blk.start()
+        mockSenseHat.assert_called_once_with()
+
+        blk.process_signals([Signal({'pi': 3.14})])
+        mock_hat.get_humidity.assert_called_once_with()
+
+        blk.stop()
+        self.assert_num_signals_notified(1)
+        self.assert_last_signal_list_notified([
+            Signal({
+                'relative_humidity': 42.0,
+                'pi': 3.14,
+            }),
+        ])
+
+    def test_temperature(self, mockSenseHat):
+        """Signals are enriched with humidity data."""
+        mock_hat = Mock()
+        mock_hat.get_temperature.return_value = 12.3
+        mockSenseHat.return_value = mock_hat
+        blk = SenseHAT()
+        self.configure_block(blk, {
+            'env': {
+                'press': False,
+                'rh': False,
+                'temp': True,
+            },
+            'imu': {
+                'accel': False,
+                'compass': False,
+                'gyro': False,
+            },
+            'enrich': {
+                'exclude_existing': False,
+            },
+        })
+
+        blk.start()
+        mockSenseHat.assert_called_once_with()
+
+        blk.process_signals([Signal({'pi': 3.14})])
+        mock_hat.get_temperature.assert_called_once_with()
+
+        blk.stop()
+        self.assert_num_signals_notified(1)
+        self.assert_last_signal_list_notified([
+            Signal({
+                'temperature_C': 12.3,
+                'pi': 3.14,
+            }),
+        ])
+
+    def test_pressure(self, mockSenseHat):
+        """Signals are enriched with humidity data."""
+        mock_hat = Mock()
+        mock_hat.get_pressure.return_value = 1000
+        mockSenseHat.return_value = mock_hat
+        blk = SenseHAT()
+        self.configure_block(blk, {
+            'env': {
+                'press': True,
+                'rh': False,
+                'temp': False,
+            },
+            'imu': {
+                'accel': False,
+                'compass': False,
+                'gyro': False,
+            },
+            'enrich': {
+                'exclude_existing': False,
+            },
+        })
+
+        blk.start()
+        mockSenseHat.assert_called_once_with()
+
+        blk.process_signals([Signal({'pi': 3.14})])
+        mock_hat.get_pressure.assert_called_once_with()
+
+        blk.stop()
+        self.assert_num_signals_notified(1)
+        self.assert_last_signal_list_notified([
+            Signal({
+                'pressure_mbar': 1000,
                 'pi': 3.14,
             }),
         ])
